@@ -3,10 +3,6 @@ from random import shuffle
 def alphaOnly(string):
     return ''.join(e for e in string if e.isalpha() or e.isspace()).lower()
 
-# string1="never gonna give you up never gonna let you down never gonna run around and desert you never gonna make you cry never gonna say goodbye never gonna tell a lie and hurt you"
-# string1=alphaOnly(string1)
-# words=string1.split(' ')
-
 string0='''Software Engineering - Lab 1
 2021111635'''
 
