@@ -7,58 +7,91 @@ def alphaOnly(string):
 # string1=alphaOnly(string1)
 # words=string1.split(' ')
 
-# graph=directedGraphLib.directedGraph()
-# graph.build(words)
-# graph.show()
+string0='''Software Engineering - Lab 1
+2021111635'''
 
-print("*** DEMO ***")
+string1='''Menu:
+    1. Read text from file & build graph
+    2. Show the graph
+    3. Query bridge words
+    4. Generate new text with bridge words
+    5. Calculate shortest path
+    6. Random walk
+                                    0. Exit
+'''
 
-print("#1")
-# 1
-string2="To explore strange new worlds, To seek out new life and new civilizations"
-string2=alphaOnly(string2)
-words=string2.split(' ')
-print("building graph...")
-graph=directedGraphLib.directedGraph()
-graph.build(words)
-print()
-
-print("#2")
-# 2
-graph.show()
-print()
-
-print("#3")
-# 3
-pairs=[("seek", "to"), ("to", "explore"), ("explore", "new"), ("new", "and"), ("and", "exciting"), ("exciting", "synergies")]
-for pair in pairs:
-    print(pair)
-    print('\t', graph.queryBridgeWords(pair[0], pair[1]))
-print()
-
-print("#4")
-# 4
-newStr="Seek to explore new and exciting synergies"
-words=newStr.split(' ')
-for i in range(len(words)):
-    print(words[i], end=' ')
-    if i<len(words)-1:
-        res=graph.queryBridgeWords(words[i], words[i+1])[2]
-        if len(res)>0:
-            shuffle(res)
-            print(res[0], end=' ')
-print('\n')
-
-print("#5")
-# 5
-pairs=[("to", "and"), ("worlds", "new")]
-for pair in pairs:
-    print(pair)
-    print('\t', graph.calcShortestPath(pair[0], pair[1]))
-print()
-
-print("#6")
-# 6
-for _ in range(5):
-    print(graph.randomWalk("to"))
-print()
+if __name__=="__main__":
+    graph=None
+    
+    print(string0)
+    while True:
+        print()
+        print(string1)
+        choice=input("Enter your choice: ")
+        
+        if choice=='1':
+            filename=input("Enter filename: ")
+            with open(filename, 'r') as f:
+                string=f.read()
+            string=alphaOnly(string)
+            words=string.split(' ')
+            del graph
+            graph=directedGraphLib.directedGraph()
+            graph.build(words)
+            print("Graph built.")
+        
+        elif choice=='2':
+            graph.show()
+            print("Graph shown.")
+        
+        elif choice=='3':
+            word1=input("Enter word 1: ")
+            word2=input("Enter word 2: ")
+            exists1, exists2, res=graph.queryBridgeWords(word1, word2)
+            if exists1 and exists2:
+                if len(res)>0:
+                    print(f"Bridge words between '{word1}' and '{word2}':", ', '.join(res))
+                else:
+                    print(f"Bridge words between '{word1}' and '{word2}' not found.")
+            elif not exists1 and not exists2:
+                print(f"Words '{word1}' and '{word2}' not found.")
+            elif not exists1:
+                print(f"Word '{word1}' not found.")
+            else:
+                print(f"Word '{word2}' not found.")
+        
+        elif choice=='4':
+            newStr=input("Enter string: ")
+            words=newStr.split(' ')
+            print("New string:")
+            for i in range(len(words)):
+                print(words[i], end=' ')
+                if i<len(words)-1:
+                    res=graph.queryBridgeWords(words[i], words[i+1])[2]
+                    if len(res)>0:
+                        shuffle(res)
+                        print(res[0], end=' ')
+            print()
+        
+        elif choice=='5':
+            word1=input("Enter word 1: ")
+            word2=input("Enter word 2: ")
+            res=graph.calcShortestPath(word1, word2)
+            if len(res)>0:
+                print("Shortest path:", '->'.join(res))
+            else:
+                print("Shortest path not found: unreachable.")
+        
+        elif choice=='6':
+            word=input("Enter word: ")
+            res=graph.randomWalk(word)
+            print("Random walk:", '->'.join(res))
+        
+        elif choice=='0':
+            break
+        
+        else:
+            print("Invalid choice.")
+    
+    print("Exiting...")
+    
