@@ -30,6 +30,8 @@ if __name__=="__main__":
             with open(filename, 'r') as f:
                 string=f.read()
             string=alphaOnly(string)
+            while '  ' in string:
+                string=string.replace('  ', ' ')
             words=string.split(' ')
             del graph
             graph=directedGraphLib.directedGraph()
