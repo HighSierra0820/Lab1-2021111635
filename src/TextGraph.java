@@ -126,7 +126,7 @@ public class TextGraph {
             for (Map.Entry<String, Integer> neighborEntry : graph.get(current).entrySet()) {
                 String neighbor = neighborEntry.getKey();
                 int weight = neighborEntry.getValue();
-                int distanceThroughCurrent = distance.getOrDefault(current, 0) + weight;
+                int distanceThroughCurrent = distance.getOrDefault(current, 0) + 1;
                 if (!visited.contains(neighbor) && (!distance.containsKey(neighbor) || distanceThroughCurrent < distance.get(neighbor))) {
                     visited.add(neighbor);
                     prev.put(neighbor, current);
